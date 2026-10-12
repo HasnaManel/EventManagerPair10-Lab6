@@ -40,23 +40,50 @@ def create_event(
 
 
 
+@router.get(
+    "/",
+    response_model=list[EventSchema]
+)
+def list_events(
+    search: str | None = Query(default=None),
+    db: Session = Depends(get_db),
+    event_location: str | None = Query(default=None)
+):
+    query = db.query(Event)
 
-
+    if search:
+        query = query.filter(
+            Event.title.ilike(f"%{search}%")
+        )
+    if event_location:
+        query = query.filter(
+            Event.location==event_location
+            )
+        
+    return query.order_by(Event.date).all()
 
 
 @router.get(
-    "/{event_id}",
+   "/{event_id}", 
     response_model=EventSchema
 )
+
+    
 def get_event(
     event_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+   # event_location: str | None = Query(default=None)
 ):
     event = (
         db.query(Event)
         .filter(Event.id == event_id)
         .first()
     )
+    #if event_location:
+     #   query=query.filter(Event.location==event_location)
+    
+    #events=query.all()
+    
 
     if not event:
         raise HTTPException(
@@ -101,30 +128,6 @@ def update_event(
     db.refresh(event)
 
     return event
-
-
-
-
-
-
-@router.get(
-    "/",
-    response_model=list[EventSchema]
-)
-def list_events(
-    search: str | None = Query(default=None),
-    db: Session = Depends(get_db)
-):
-    query = db.query(Event)
-
-    if search:
-        query = query.filter(
-            Event.title.ilike(f"%{search}%")
-        )
-
-    return query.order_by(Event.date).all()
-
-
 
 
 @router.delete(
