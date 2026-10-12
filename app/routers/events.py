@@ -39,6 +39,9 @@ def create_event(
     return db_event
 
 
+
+
+
 @router.get(
     "/",
     response_model=list[EventSchema]
