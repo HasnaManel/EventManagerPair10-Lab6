@@ -1,9 +1,13 @@
+import importlib
+from datetime import date, timedelta
+from unittest.mock import MagicMock, patch
 
 import pytest
-from unittest.mock import MagicMock
 from fastapi import HTTPException
+from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
+from app.database import Base, get_db
 from app.models import Event, Participant, Registration
 from app.schemas import ParticipantCreate
 from app.registration_logic import (
@@ -20,6 +24,30 @@ from app.routers.registrations import (
     register_participant,
     list_event_participants,
 )
+
+
+# Import the app while preventing create_all() from running here.
+with patch.object(Base.metadata, "create_all"):
+    app = importlib.import_module("app.main").app
+
+
+# ============================================================
+# Fixtures for FastAPI TestClient
+# ============================================================
+
+@pytest.fixture
+def api_mock_db():
+    return MagicMock()
+
+
+@pytest.fixture
+def api_client(api_mock_db):
+    app.dependency_overrides[get_db] = lambda: api_mock_db
+
+    with TestClient(app) as client:
+        yield client
+
+    app.dependency_overrides.clear()
 
 
 # ============================================================
@@ -46,6 +74,9 @@ def mock_query_results(results):
     for model, result in results.items():
         query = MagicMock()
         query.filter.return_value.first.return_value = result
+        query.order_by.return_value.all.return_value = (
+            result if isinstance(result, list) else []
+        )
         queries[model] = query
 
     db.query.side_effect = lambda model: queries[model]
@@ -69,8 +100,6 @@ def make_participant(**overrides):
 
 
 def make_event(**overrides):
-    from datetime import date, timedelta
-
     values = {
         "id": 1,
         "title": "Python Workshop",
@@ -155,7 +184,7 @@ def test_new_registration_is_not_duplicate():
 
 
 # ============================================================
-# 4. Participant route tests using mocked database sessions
+# 4. Participant route tests with mocked database sessions
 # ============================================================
 
 def test_create_participant_mocked():
@@ -220,7 +249,7 @@ def test_delete_participant_missing():
 
 
 # ============================================================
-# 5. Registration route tests using mocked database sessions
+# 5. Registration route tests with mocked database sessions
 # ============================================================
 
 def test_register_participant_event_missing():
@@ -350,3 +379,78 @@ def test_list_event_participants_success():
             "email": "lina@example.com",
         }
     ]
+
+
+# ============================================================
+# 6. FastAPI TestClient API tests
+# ============================================================
+
+def test_create_participant_api(api_client, api_mock_db):
+    query = MagicMock()
+    api_mock_db.query.return_value = query
+    query.filter.return_value.first.return_value = None
+
+    def set_id(participant):
+        participant.id = 1
+
+    api_mock_db.refresh.side_effect = set_id
+
+    response = api_client.post(
+        "/participants/",
+        json={
+            "name": "Lina",
+            "email": "lina@example.com",
+        },
+    )
+
+    assert response.status_code == 201
+    assert response.json()["name"] == "Lina"
+    assert response.json()["email"] == "lina@example.com"
+    api_mock_db.add.assert_called_once()
+    api_mock_db.commit.assert_called_once()
+
+
+def test_create_participant_duplicate_email_api(
+    api_client, api_mock_db
+):
+    query = MagicMock()
+    api_mock_db.query.return_value = query
+    query.filter.return_value.first.return_value = make_participant()
+
+    response = api_client.post(
+        "/participants/",
+        json={
+            "name": "Another Person",
+            "email": "lina@example.com",
+        },
+    )
+
+    assert response.status_code == 409
+    assert response.json()["detail"] == "Email is already registered."
+    api_mock_db.add.assert_not_called()
+
+
+def test_create_participant_invalid_email_api(
+    api_client, api_mock_db
+):
+    response = api_client.post(
+        "/participants/",
+        json={
+            "name": "Lina",
+            "email": "not-an-email",
+        },
+    )
+
+    assert response.status_code == 422
+    api_mock_db.query.assert_not_called()
+
+
+def test_get_missing_participant_api(api_client, api_mock_db):
+    query = MagicMock()
+    api_mock_db.query.return_value = query
+    query.filter.return_value.first.return_value = None
+
+    response = api_client.get("/participants/999")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Participant not found."
