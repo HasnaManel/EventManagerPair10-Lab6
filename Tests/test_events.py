@@ -97,3 +97,103 @@ def test_invalid_capacity_raises_validation_error(
 
     with pytest.raises(ValidationError):
         EventCreate(**data)
+
+#----------------------Tests added to improve coverage -------------------
+from unittest.mock import MagicMock
+from fastapi import HTTPException
+
+from app.routers.events import get_event
+
+
+def test_get_missing_event_without_database():
+    mock_db = MagicMock()
+
+    # Simulate a database query that finds no event
+    mock_db.query.return_value.filter.return_value.first.return_value = None
+
+    with pytest.raises(HTTPException) as exc_info:
+        get_event(event_id=999, db=mock_db)
+
+    assert exc_info.value.status_code == 404
+    assert exc_info.value.detail == "Event not found."
+    
+
+from unittest.mock import MagicMock
+from app.routers.events import get_event
+
+
+def test_get_existing_event():
+    mock_db = MagicMock()
+
+    fake_event = MagicMock()
+    fake_event.id = 1
+
+    mock_db.query.return_value.filter.return_value.first.return_value = fake_event
+
+    result = get_event(event_id=1, db=mock_db)
+
+    assert result == fake_event
+    
+    
+from app.routers.events import delete_event
+
+
+def test_delete_existing_event():
+    mock_db = MagicMock()
+
+    fake_event = MagicMock()
+    mock_db.query.return_value.filter.return_value.first.return_value = fake_event
+
+    result = delete_event(event_id=1, db=mock_db)
+
+    mock_db.delete.assert_called_once_with(fake_event)
+    mock_db.commit.assert_called_once()
+    assert result is None
+    
+from app.routers.events import update_event
+from app.schemas import EventUpdate
+
+
+def test_update_missing_event():
+    mock_db = MagicMock()
+    mock_db.query.return_value.filter.return_value.first.return_value = None
+
+    update_data = EventUpdate(
+        title="Updated Workshop",
+        description="Updated description",
+        date="2027-06-15",
+        location="Algiers",
+        capacity=30,
+    )
+
+    with pytest.raises(HTTPException) as exc_info:
+        update_event(event_id=999, event_data=update_data, db=mock_db)
+
+    assert exc_info.value.status_code == 404
+    
+
+from app.routers.events import list_events
+
+
+def test_list_events_without_search():
+    mock_db = MagicMock()
+    fake_events = [MagicMock(), MagicMock()]
+
+    mock_db.query.return_value.order_by.return_value.all.return_value = fake_events
+
+    result = list_events(search=None, db=mock_db)
+
+    assert result == fake_events
+
+
+def test_list_events_with_search():
+    mock_db = MagicMock()
+    fake_events = [MagicMock()]
+
+    query_mock = mock_db.query.return_value
+    query_mock.filter.return_value.order_by.return_value.all.return_value = fake_events
+
+    result = list_events(search="Python", db=mock_db)
+
+    query_mock.filter.assert_called_once()
+    assert result == fake_events
