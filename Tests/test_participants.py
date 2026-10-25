@@ -173,14 +173,16 @@ def test_capacity_exceeded():
 def test_duplicate_registration_raises_error():
     registered_ids = [1, 2, 3]
 
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError) as exc:
         check_duplicate_registration(registered_ids, 3)
+
+    assert str(exc.value) == "Participant is already registered."
 
 
 def test_new_registration_is_not_duplicate():
     registered_ids = [1, 2, 3]
 
-    check_duplicate_registration(registered_ids, 4)
+    assert check_duplicate_registration(registered_ids, 4) is None
 
 
 # ============================================================

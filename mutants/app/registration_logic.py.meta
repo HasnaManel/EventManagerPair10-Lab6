@@ -1,0 +1,31 @@
+{
+    "exit_code_by_key": {
+        "app.registration_logic.x_has_available_capacity__mutmut_1": 1,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_1": 1,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_2": 1,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_3": 1,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_4": 1,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_5": 1
+    },
+    "hash_by_function_name": {
+        "x_has_available_capacity": "043ea032039e",
+        "x_check_duplicate_registration": "70f34b9b3e45"
+    },
+    "type_check_error_by_key": {},
+    "durations_by_key": {
+        "app.registration_logic.x_check_duplicate_registration__mutmut_1": 1.903028,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_2": 1.902173,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_3": 1.918544,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_5": 1.91787,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_4": 2.188629,
+        "app.registration_logic.x_has_available_capacity__mutmut_1": 2.468866
+    },
+    "estimated_durations_by_key": {
+        "app.registration_logic.x_check_duplicate_registration__mutmut_1": 0.0005667859995810431,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_2": 0.0005667859995810431,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_3": 0.0005667859995810431,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_4": 0.0005667859995810431,
+        "app.registration_logic.x_check_duplicate_registration__mutmut_5": 0.0005667859995810431,
+        "app.registration_logic.x_has_available_capacity__mutmut_1": 0.0010539829991103034
+    }
+}
