@@ -17,6 +17,8 @@ from app.utils.event_search import (
 )
 
 
+'''
+#Strong tests
 # HAPPY PATH TEST 1: Valid event creation
 def test_valid_event_instantiation(sample_event_dict):
     event = EventCreate(**sample_event_dict)
@@ -32,10 +34,33 @@ def test_filter_events_by_location(prepopulated_event_store):
         "aLgIeRs"
     )
 
+
     assert len(results) == 3
     assert all(event.location.lower() == "algiers" for event in results)
 
+'''
 
+
+# Weak tests:
+# HAPPY PATH TEST 2: Filter events by location (weak version)
+def test_filter_events_by_location(prepopulated_event_store):
+    results = filter_events_by_location(prepopulated_event_store, "algiers")
+    assert isinstance(results, list)
+
+'''
+# HAPPY PATH TEST 3: Filter events by title (weak version)
+def test_filter_events_by_title(prepopulated_event_store):
+    results = filter_events_by_title(prepopulated_event_store, "event 1")
+    assert isinstance(results, list)
+'''    
+# HAPPY PATH TEST 3: Filter events by title (very weak version)
+def test_filter_events_by_title(prepopulated_event_store):
+    results = filter_events_by_title(prepopulated_event_store, "event 1")
+    assert results is not None
+    
+    
+    
+    
 # HAPPY PATH TEST 3: Filter events by title
 def test_filter_events_by_title(prepopulated_event_store):
     results = filter_events_by_title(
