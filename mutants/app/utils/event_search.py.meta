@@ -1,0 +1,31 @@
+{
+    "exit_code_by_key": {
+        "app.utils.event_search.x_filter_events_by_location__mutmut_1": 1,
+        "app.utils.event_search.x_filter_events_by_location__mutmut_2": 1,
+        "app.utils.event_search.x_filter_events_by_location__mutmut_3": 1,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_1": 1,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_2": 1,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_3": 1
+    },
+    "hash_by_function_name": {
+        "x_filter_events_by_location": "8508fcac7aea",
+        "x_filter_events_by_title": "9c6dab1cb6bf"
+    },
+    "type_check_error_by_key": {},
+    "durations_by_key": {
+        "app.utils.event_search.x_filter_events_by_location__mutmut_2": 1.755554,
+        "app.utils.event_search.x_filter_events_by_location__mutmut_1": 1.792311,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_1": 1.806817,
+        "app.utils.event_search.x_filter_events_by_location__mutmut_3": 1.845043,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_2": 1.860013,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_3": 1.884871
+    },
+    "estimated_durations_by_key": {
+        "app.utils.event_search.x_filter_events_by_location__mutmut_1": 0.0004666759996325709,
+        "app.utils.event_search.x_filter_events_by_location__mutmut_2": 0.0004666759996325709,
+        "app.utils.event_search.x_filter_events_by_location__mutmut_3": 0.0004666759996325709,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_1": 0.00050720299987006,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_2": 0.00050720299987006,
+        "app.utils.event_search.x_filter_events_by_title__mutmut_3": 0.00050720299987006
+    }
+}

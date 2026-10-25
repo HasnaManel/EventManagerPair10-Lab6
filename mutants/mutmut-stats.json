@@ -1,0 +1,109 @@
+{
+    "tests_by_mangled_function_name": {
+        "app.utils.event_search.x_filter_events_by_location": [
+            "Tests/test_events.py::test_filter_events_by_location"
+        ],
+        "app.utils.event_search.x_filter_events_by_title": [
+            "Tests/test_events.py::test_filter_events_by_title"
+        ],
+        "app.registration_logic.x_has_available_capacity": [
+            "Tests/test_participants.py::test_capacity_exceeded",
+            "Tests/test_participants.py::test_capacity_available",
+            "Tests/test_participants.py::test_capacity_exactly_full",
+            "Tests/test_participants.py::test_capacity_one_slot_remaining"
+        ],
+        "app.registration_logic.x_check_duplicate_registration": [
+            "Tests/test_participants.py::test_duplicate_registration_raises_error",
+            "Tests/test_participants.py::test_new_registration_is_not_duplicate"
+        ]
+    },
+    "duration_by_test": {
+        "Tests/test_events.py::test_valid_event_instantiation": 0.0004678390005210531,
+        "Tests/test_events.py::test_filter_events_by_location": 0.0004666759996325709,
+        "Tests/test_events.py::test_filter_events_by_title": 0.00050720299987006,
+        "Tests/test_events.py::test_capacity_minimum": 0.0003273409993198584,
+        "Tests/test_events.py::test_capacity_maximum": 0.0004123129992876784,
+        "Tests/test_events.py::test_title_minimum_length": 0.00025514500066492474,
+        "Tests/test_events.py::test_short_title_raises_validation_error": 0.0010770290000436944,
+        "Tests/test_events.py::test_invalid_capacity_raises_validation_error[0]": 0.0002752620002866024,
+        "Tests/test_events.py::test_invalid_capacity_raises_validation_error[-1]": 0.0004236350005157874,
+        "Tests/test_events.py::test_get_missing_event_without_database": 0.004853655999795592,
+        "Tests/test_events.py::test_get_existing_event": 0.002851985999768658,
+        "Tests/test_events.py::test_delete_existing_event": 0.003143107999676431,
+        "Tests/test_events.py::test_update_missing_event": 0.00228476799929922,
+        "Tests/test_events.py::test_list_events_without_search": 0.002559259000008751,
+        "Tests/test_events.py::test_list_events_with_search": 0.004264891999810061,
+        "Tests/test_participants.py::test_valid_participant": 0.0012648210004044813,
+        "Tests/test_participants.py::test_participant_name_too_short": 0.0005805529999634018,
+        "Tests/test_participants.py::test_invalid_participant_email": 0.0004166210001130821,
+        "Tests/test_participants.py::test_capacity_available": 0.00022337499922286952,
+        "Tests/test_participants.py::test_capacity_one_slot_remaining": 0.00025797000034799566,
+        "Tests/test_participants.py::test_capacity_exactly_full": 0.00022530799924425082,
+        "Tests/test_participants.py::test_capacity_exceeded": 0.00034733000029518735,
+        "Tests/test_participants.py::test_duplicate_registration_raises_error": 0.0003040169995074393,
+        "Tests/test_participants.py::test_new_registration_is_not_duplicate": 0.0002627690000736038,
+        "Tests/test_participants.py::test_create_participant_mocked": 0.008102097000119102,
+        "Tests/test_participants.py::test_create_participant_rejects_duplicate_email": 0.004431365000527876,
+        "Tests/test_participants.py::test_list_participants_mocked": 0.0040515320006306865,
+        "Tests/test_participants.py::test_get_participant_missing": 0.0018893480000770069,
+        "Tests/test_participants.py::test_delete_participant_missing": 0.0037471359992196085,
+        "Tests/test_participants.py::test_register_participant_event_missing": 0.0025926119997166097,
+        "Tests/test_participants.py::test_register_participant_missing_participant": 0.01149142899976141,
+        "Tests/test_participants.py::test_register_participant_duplicate": 0.010767048000161594,
+        "Tests/test_participants.py::test_register_participant_capacity_reached": 0.04589846999988367,
+        "Tests/test_participants.py::test_register_participant_success": 0.007444626000506105,
+        "Tests/test_participants.py::test_list_event_participants_missing_event": 0.0020474480006669182,
+        "Tests/test_participants.py::test_list_event_participants_success": 0.006604711999898427,
+        "Tests/test_participants.py::test_create_participant_api": 0.05823438800052827,
+        "Tests/test_participants.py::test_create_participant_duplicate_email_api": 0.020196679999571643,
+        "Tests/test_participants.py::test_create_participant_invalid_email_api": 0.013361169000745576,
+        "Tests/test_participants.py::test_get_missing_participant_api": 0.02258407099998294
+    },
+    "stats_time": 3.7433973649999994,
+    "function_hashes": {
+        "app.registration_logic.x_has_available_capacity": "043ea032039e",
+        "app.registration_logic.x_check_duplicate_registration": "70f34b9b3e45",
+        "app.utils.event_search.x_filter_events_by_location": "8508fcac7aea",
+        "app.utils.event_search.x_filter_events_by_title": "9c6dab1cb6bf",
+        "app.database.x_get_db": "cc62ac873a57"
+    },
+    "function_dependencies": {},
+    "config_fingerprint": {
+        "test_execution": "2e38e77b22c3",
+        "test_selection": "f6d84df09b14",
+        "timeout": "d3052321fdc3",
+        "type_check": "2e38e77b22c3"
+    },
+    "watched_file_hashes": {
+        "setup.cfg": "c3f74398bf75",
+        "requirements.txt": "fafe17847b2d",
+        "mutants/app/__init__.py.meta": "8337af0c4106",
+        "mutants/app/__init__.py.spans": "50434fb64e05",
+        "mutants/app/database.py.meta": "ef294aa72ebc",
+        "mutants/app/database.py.spans": "264016bdfcef",
+        "mutants/app/main.py.meta": "8337af0c4106",
+        "mutants/app/main.py.spans": "50434fb64e05",
+        "mutants/app/models.py.meta": "8337af0c4106",
+        "mutants/app/models.py.spans": "50434fb64e05",
+        "mutants/app/registration_logic.py.meta": "289d3384b25f",
+        "mutants/app/registration_logic.py.spans": "2c50275de080",
+        "mutants/app/routers/__init__.py.meta": "8337af0c4106",
+        "mutants/app/routers/__init__.py.spans": "50434fb64e05",
+        "mutants/app/routers/events.py.meta": "8337af0c4106",
+        "mutants/app/routers/events.py.spans": "50434fb64e05",
+        "mutants/app/routers/participants.py.meta": "8337af0c4106",
+        "mutants/app/routers/participants.py.spans": "50434fb64e05",
+        "mutants/app/routers/registrations.py.meta": "8337af0c4106",
+        "mutants/app/routers/registrations.py.spans": "50434fb64e05",
+        "mutants/app/schemas.py.meta": "8337af0c4106",
+        "mutants/app/schemas.py.spans": "50434fb64e05",
+        "mutants/app/utils/__init__.py.meta": "8337af0c4106",
+        "mutants/app/utils/__init__.py.spans": "50434fb64e05",
+        "mutants/app/utils/event_search.py.meta": "b423bf8416ce",
+        "mutants/app/utils/event_search.py.spans": "972eba7ff2de",
+        "mutants/pytest.ini": "697449f6d1ee",
+        "mutants/setup.cfg": "c3f74398bf75",
+        "pytest.ini": "697449f6d1ee"
+    },
+    "git_commit": "c48ac82560a4c1d20ab4b4c7b864e8f7674b2713"
+}
