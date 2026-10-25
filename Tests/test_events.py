@@ -17,6 +17,8 @@ from app.utils.event_search import (
 )
 
 
+
+#Strong tests
 # HAPPY PATH TEST 1: Valid event creation
 def test_valid_event_instantiation(sample_event_dict):
     event = EventCreate(**sample_event_dict)
@@ -32,10 +34,54 @@ def test_filter_events_by_location(prepopulated_event_store):
         "aLgIeRs"
     )
 
+
     assert len(results) == 3
     assert all(event.location.lower() == "algiers" for event in results)
 
 
+
+'''
+# Weak tests:
+# HAPPY PATH TEST 2: Filter events by location (weak version)
+def test_filter_events_by_location(prepopulated_event_store):
+    results = filter_events_by_location(prepopulated_event_store, "algiers")
+    assert isinstance(results, list)
+
+
+# HAPPY PATH TEST 3: Filter events by title (weak version)
+def test_filter_events_by_title(prepopulated_event_store):
+    results = filter_events_by_title(prepopulated_event_store, "event 1")
+    assert isinstance(results, list)
+    
+# HAPPY PATH TEST 3: Filter events by title (very weak version)
+def test_filter_events_by_title(prepopulated_event_store):
+    results = filter_events_by_title(prepopulated_event_store, "event 1")
+    assert results is not None
+'''
+   
+   
+   
+# Extra tests that kill the remaining filter mutants
+def test_filter_events_by_location_no_match(prepopulated_event_store):
+    assert filter_events_by_location(prepopulated_event_store, "Nowhere") == []
+
+
+def test_filter_events_by_title_no_match(prepopulated_event_store):
+    assert filter_events_by_title(prepopulated_event_store, "zzz") == []
+
+
+def test_filter_events_by_location_uppercase_query(prepopulated_event_store):
+    results = filter_events_by_location(prepopulated_event_store, "ALGIERS")
+    assert len(results) == 3
+
+
+def test_filter_events_by_title_uppercase_query(prepopulated_event_store):
+    results = filter_events_by_title(prepopulated_event_store, "EVENT 1")
+    assert len(results) == 1
+    
+     
+    
+    
 # HAPPY PATH TEST 3: Filter events by title
 def test_filter_events_by_title(prepopulated_event_store):
     results = filter_events_by_title(
@@ -97,6 +143,55 @@ def test_invalid_capacity_raises_validation_error(
 
     with pytest.raises(ValidationError):
         EventCreate(**data)
+        
+        
+def test_capacity_above_maximum_raises_validation_error(sample_event_dict):
+    data = sample_event_dict.copy()
+    data["capacity"] = 10001
+
+    with pytest.raises(ValidationError):
+        EventCreate(**data)
+
+
+def test_title_maximum_length(sample_event_dict):
+    data = sample_event_dict.copy()
+    data["title"] = "A" * 100
+
+    event = EventCreate(**data)
+    assert len(event.title) == 100
+
+
+def test_title_above_maximum_length_raises_validation_error(sample_event_dict):
+    data = sample_event_dict.copy()
+    data["title"] = "A" * 101
+
+    with pytest.raises(ValidationError):
+        EventCreate(**data)
+        
+#Added boundary tests to kill the rest of the mutants:
+def test_capacity_above_maximum_raises_validation_error(sample_event_dict):
+    data = sample_event_dict.copy()
+    data["capacity"] = 10001
+
+    with pytest.raises(ValidationError):
+        EventCreate(**data)
+
+
+def test_title_maximum_length(sample_event_dict):
+    data = sample_event_dict.copy()
+    data["title"] = "A" * 100
+
+    event = EventCreate(**data)
+    assert len(event.title) == 100
+
+
+def test_title_above_maximum_length_raises_validation_error(sample_event_dict):
+    data = sample_event_dict.copy()
+    data["title"] = "A" * 101
+
+    with pytest.raises(ValidationError):
+        EventCreate(**data)
+        
 
 #----------------------Tests added to improve coverage -------------------
 from unittest.mock import MagicMock
