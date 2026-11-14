@@ -21,10 +21,12 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
+  
 
       containers:
         - name: backend
-          image: hassoun2026/eventmanager-backend:latest
+          #image: hassoun2026/eventmanager-backend:latest
+          image: hassoun2026/eventmanager-backend:v2
 
           ports:
             - containerPort: 8000
