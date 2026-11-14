@@ -25,8 +25,7 @@ spec:
 
       containers:
         - name: backend
-          #image: hassoun2026/eventmanager-backend:latest
-          image: hassoun2026/eventmanager-backend:v2
+          image: hassoun2026/eventmanager-backend:latest
 
           ports:
             - containerPort: 8000
